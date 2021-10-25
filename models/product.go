@@ -14,10 +14,10 @@ func ProductsAll(db *gorm.DB) ([]Product, error) {
 	return products, result.Error
 }
 
-func ProductByID(db *gorm.DB, id int) (*Product, error) {
+func ProductByID(db *gorm.DB, id int) (Product, error) {
 	var product Product
 	result := db.Take(&product, id)
-	return &product, result.Error
+	return product, result.Error
 }
 
 func ProductNew(db *gorm.DB, product *Product) error {
