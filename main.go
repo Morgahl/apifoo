@@ -12,17 +12,10 @@ func main() {
 	Logger(config.LoggerConfig)
 
 	// Setup Database
-	db, err := Database(config.DatabaseConfig)
-	if err != nil {
-		log.Fatal().Err(err).Msg("failed to setup database")
-	}
-
-	if err := models.INIT(db); err != nil {
-		log.Fatal().Err(err).Msg("failed to migrate models")
-	}
+	models.INIT(config.DatabaseConfig)
 
 	// Setup API
-	log.Info().Err(Router(db).Run(config.ApplicationConfig.Port)).Msg("Server shutdown")
+	log.Info().Err(Router().Run(config.ApplicationConfig.Port)).Msg("Server shutdown")
 }
 
 type ApplicationConfig struct {

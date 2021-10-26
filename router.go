@@ -4,10 +4,9 @@ import (
 	"github.com/curlymon/gormfoo/controllers"
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func Router(db *gorm.DB) *gin.Engine {
+func Router() *gin.Engine {
 	router := gin.New()
 
 	router.Use(
@@ -15,11 +14,15 @@ func Router(db *gorm.DB) *gin.Engine {
 		gin.Recovery(),
 	)
 
-	router.GET("/ping", controllers.Ping())
+	router.GET("/ping", controllers.Ping)
 
-	router.GET("/product", controllers.GET_Products(db))
-	router.GET("/product/:id", controllers.GET_Product(db))
-	router.POST("/product", controllers.POST_Product(db))
+	{
+		g := router.Group("/product")
+		p := controllers.Product{}
+		g.GET("/", p.List)
+		g.GET("/:id", p.Show)
+		g.POST("/", p.Create)
+	}
 
 	return router
 }

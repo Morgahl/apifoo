@@ -4,6 +4,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/curlymon/gormfoo/models"
 )
 
 func GetConfig() Config {
@@ -12,7 +14,7 @@ func GetConfig() Config {
 			Debug:       getEnvOrDefaultBool("LOGGER_DEBUG", false),
 			PrettyPrint: getEnvOrDefaultBool("LOGGER_PRETTY", false),
 		},
-		DatabaseConfig: DatabaseConfig{
+		DatabaseConfig: models.Config{
 			User:   getEnvOrDefaultString("POSTGRES_USER", ""),
 			Pass:   getEnvOrDefaultString("POSTGRES_PASSWORD", ""),
 			Host:   getEnvOrDefaultString("POSTGRES_HOST", ""),
@@ -27,7 +29,7 @@ func GetConfig() Config {
 
 type Config struct {
 	LoggerConfig      LoggerConfig
-	DatabaseConfig    DatabaseConfig
+	DatabaseConfig    models.Config
 	ApplicationConfig ApplicationConfig
 }
 
