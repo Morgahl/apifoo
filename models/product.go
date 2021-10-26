@@ -8,7 +8,7 @@ import (
 
 // Product is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Product struct {
-	ID        uuid.UUID `json:"-" db:"id"`
+	ID        uuid.UUID `json:"id" db:"id"`
 	Code      string    `json:"code" db:"code"`
 	Price     float64   `json:"price" db:"price"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
@@ -26,5 +26,5 @@ func ProductByID(id string) (product Product, err error) {
 }
 
 func ProductCreate(product Product) error {
-	return DB.Create(product)
+	return DB.Create(&product)
 }

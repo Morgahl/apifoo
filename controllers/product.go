@@ -13,7 +13,7 @@ type Product struct{}
 
 func (Product) List(c *gin.Context) {
 	type Response struct {
-		Products []models.Product
+		Products []models.Product `json:"products"`
 	}
 
 	products, err := models.ProductList()
@@ -30,7 +30,7 @@ func (Product) List(c *gin.Context) {
 
 func (Product) Show(c *gin.Context) {
 	type Response struct {
-		Product models.Product
+		Product models.Product `json:"product"`
 	}
 
 	id := c.Param("id")
@@ -48,7 +48,7 @@ func (Product) Show(c *gin.Context) {
 
 func (Product) Create(c *gin.Context) {
 	type Response struct {
-		Product models.Product
+		Product models.Product `json:"product"`
 	}
 
 	var product models.Product

@@ -1,7 +1,7 @@
 package controllers
 
 type ErrorResponse struct {
-	Error string
+	Error string `json:"error"`
 }
 
 func Error(err string) ErrorResponse {

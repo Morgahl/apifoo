@@ -12,7 +12,9 @@ func main() {
 	Logger(config.LoggerConfig)
 
 	// Setup Database
-	models.INIT(config.DatabaseName)
+	if err := models.INIT(config.DatabaseName); err != nil {
+		log.Fatal().Err(err).Msg("error setting up database")
+	}
 
 	// Setup API
 	log.Info().Err(Router().Run(config.ApplicationConfig.Port)).Msg("Server shutdown")

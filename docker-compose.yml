@@ -6,10 +6,6 @@ services:
     environment:
       LOGGER_DEBUG: true
       LOGGER_PRETTY: true
-      POSTGRES_USER: apifoo
-      POSTGRES_PASSWORD: apifoo
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: development
       PORT: ":8080"
     ports:
       - "8080:8080"
@@ -22,11 +18,11 @@ services:
     environment:
       POSTGRES_USER: apifoo
       POSTGRES_PASSWORD: apifoo
-      POSTGRES_DB: development
+      POSTGRES_DB: apifoo
     ports:
       - "5432:5432"
     volumes:
-      - mysqldata:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  mysqldata: {}
+  pgdata: {}
