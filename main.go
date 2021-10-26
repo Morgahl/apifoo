@@ -12,7 +12,7 @@ func main() {
 	Logger(config.LoggerConfig)
 
 	// Setup Database
-	models.INIT(config.DatabaseConfig)
+	models.INIT(config.DatabaseName)
 
 	// Setup API
 	log.Info().Err(Router().Run(config.ApplicationConfig.Port)).Msg("Server shutdown")

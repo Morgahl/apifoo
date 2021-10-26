@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/curlymon/gormfoo/models"
 
@@ -17,7 +16,7 @@ func (Product) List(c *gin.Context) {
 		Products []models.Product
 	}
 
-	products, err := models.ProductsList()
+	products, err := models.ProductList()
 	if err != nil {
 		log.Debug().Err(err).Msg("error retrieving products from database")
 		c.JSON(http.StatusNotFound, Error("products not found"))
@@ -34,15 +33,10 @@ func (Product) Show(c *gin.Context) {
 		Product models.Product
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, Error("invalid id format"))
-		return
-	}
-
+	id := c.Param("id")
 	product, err := models.ProductByID(id)
 	if err != nil {
-		log.Debug().Err(err).Int("id", id).Msg("error retrieving product from database")
+		log.Debug().Err(err).Str("id", id).Msg("error retrieving product from database")
 		c.JSON(http.StatusNotFound, Error("product not found"))
 		return
 	}
@@ -64,7 +58,7 @@ func (Product) Create(c *gin.Context) {
 		return
 	}
 
-	if err := models.ProductCreate(&product); err != nil {
+	if err := models.ProductCreate(product); err != nil {
 		log.Debug().Err(err).Msg("error creating product in database")
 		c.JSON(http.StatusBadRequest, Error("unknown error occured"))
 		return

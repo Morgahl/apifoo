@@ -2,10 +2,7 @@ package main
 
 import (
 	"os"
-	"strconv"
 	"strings"
-
-	"github.com/curlymon/gormfoo/models"
 )
 
 func GetConfig() Config {
@@ -14,13 +11,7 @@ func GetConfig() Config {
 			Debug:       getEnvOrDefaultBool("LOGGER_DEBUG", false),
 			PrettyPrint: getEnvOrDefaultBool("LOGGER_PRETTY", false),
 		},
-		DatabaseConfig: models.Config{
-			User:   getEnvOrDefaultString("POSTGRES_USER", ""),
-			Pass:   getEnvOrDefaultString("POSTGRES_PASSWORD", ""),
-			Host:   getEnvOrDefaultString("POSTGRES_HOST", ""),
-			Port:   getEnvOrDefaultInt("POSTGRES_PORT", 5432),
-			DBName: getEnvOrDefaultString("POSTGRES_DB", ""),
-		},
+		DatabaseName: getEnvOrDefaultString("DATABASE_NAME", "development"),
 		ApplicationConfig: ApplicationConfig{
 			Port: getEnvOrDefaultString("PORT", ":8080"),
 		},
@@ -29,7 +20,7 @@ func GetConfig() Config {
 
 type Config struct {
 	LoggerConfig      LoggerConfig
-	DatabaseConfig    models.Config
+	DatabaseName      string
 	ApplicationConfig ApplicationConfig
 }
 
@@ -48,16 +39,6 @@ func getEnvOrDefaultBool(key string, def bool) bool {
 			return true
 		default:
 			return false
-		}
-	}
-
-	return def
-}
-
-func getEnvOrDefaultInt(key string, def int) int {
-	if env := os.Getenv(key); env != "" {
-		if i, err := strconv.Atoi(env); err == nil {
-			return i
 		}
 	}
 

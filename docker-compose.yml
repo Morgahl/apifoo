@@ -6,8 +6,8 @@ services:
     environment:
       LOGGER_DEBUG: true
       LOGGER_PRETTY: true
-      POSTGRES_USER: gorm
-      POSTGRES_PASSWORD: gorm
+      POSTGRES_USER: apifoo
+      POSTGRES_PASSWORD: apifoo
       POSTGRES_HOST: postgres
       POSTGRES_DB: development
       PORT: ":8080"
@@ -20,8 +20,8 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: gorm
-      POSTGRES_PASSWORD: gorm
+      POSTGRES_USER: apifoo
+      POSTGRES_PASSWORD: apifoo
       POSTGRES_DB: development
     ports:
       - "5432:5432"

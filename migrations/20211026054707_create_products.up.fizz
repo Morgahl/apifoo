@@ -1,0 +1,6 @@
+create_table("products") {
+  t.Column("id", "uuid", {primary: true})
+  t.Column("code", "string")
+  t.Column("price", "float", {})
+  t.Timestamps()
+}

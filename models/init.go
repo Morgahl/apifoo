@@ -1,39 +1,12 @@
 package models
 
-import (
-	"fmt"
+import "github.com/gobuffalo/pop"
 
-	"github.com/rs/zerolog/log"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-)
+var DB *pop.Connection
 
-var DB *gorm.DB
-
-type Config struct {
-	User   string
-	Pass   string
-	Host   string
-	Port   int
-	DBName string
-}
-
-func INIT(config Config) {
-	var err error
-	if DB, err = gorm.Open(postgres.Open(fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=UTC",
-		config.Host, config.User, config.Pass, config.DBName, config.Port,
-	)), &gorm.Config{}); err != nil {
-		log.Fatal().Err(err).Msg("failed to setup database")
+func INIT(confName string) (err error) {
+	if DB, err = pop.Connect(confName); err != nil {
+		return err
 	}
-
-	if err = migrate(); err != nil {
-		log.Fatal().Err(err).Msg("failed to migrate")
-	}
-}
-
-func migrate() error {
-	return DB.AutoMigrate(
-		&Product{},
-	)
+	return nil
 }
