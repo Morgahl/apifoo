@@ -20,13 +20,13 @@ type Config struct {
 
 func INIT(config Config) {
 	var err error
-	DB, err = gorm.Open(postgres.Open(fmt.Sprintf(
+	if DB, err = gorm.Open(postgres.Open(fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=UTC",
 		config.Host, config.User, config.Pass, config.DBName, config.Port,
-	)), &gorm.Config{})
-	if err != nil {
+	)), &gorm.Config{}); err != nil {
 		log.Fatal().Err(err).Msg("failed to setup database")
 	}
+
 	if err = migrate(); err != nil {
 		log.Fatal().Err(err).Msg("failed to migrate")
 	}
